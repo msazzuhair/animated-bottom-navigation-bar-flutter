@@ -9,6 +9,8 @@ class NavigationBarItem extends StatelessWidget {
   final Color? bubbleColor;
   final Color? activeColor;
   final Color? inactiveColor;
+  final Color? activeLabelColor;
+  final Color? inactiveLabelColor;
   final IconData? iconData;
   final double iconScale;
   final double? iconSize;
@@ -28,7 +30,11 @@ class NavigationBarItem extends StatelessWidget {
     required this.iconScale,
     required this.iconSize,
     required this.onTap,
-    this.child, this.label, this.labelSize,
+    this.child,
+    this.label,
+    this.labelSize,
+    this.activeLabelColor,
+    this.inactiveLabelColor,
   });
 
   @override
@@ -59,7 +65,13 @@ class NavigationBarItem extends StatelessWidget {
                       ),
                     ),
                   ),
-                  label != null ? Text(label!, style: TextStyle(fontSize: labelSize ?? 11),) : Container()
+                  label != null ? Text(
+                    label!,
+                    style: TextStyle(
+                        color: isActive ? activeLabelColor : inactiveLabelColor,
+                        fontSize: labelSize ?? 11
+                    ),
+                  ) : Container(),
                 ],
               ),
             ),

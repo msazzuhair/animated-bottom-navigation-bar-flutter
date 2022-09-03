@@ -74,6 +74,12 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
   /// Optional custom currently unselected tab bar [IconData] color. Default is [Colors.black]
   final Color? inactiveColor;
 
+  /// Optional custom currently selected tab bar [IconData] color. Default is primary text color
+  final Color? activeLabelColor;
+
+  /// Optional custom currently unselected tab bar [IconData] color. Default is primary text color
+  final Color? inactiveLabelColor;
+
   /// Optional custom [Animation] to animate corners and notch appearing.
   final Animation<double>? notchAndCornersAnimation;
 
@@ -153,7 +159,11 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     this.hideAnimationCurve,
     this.hideAnimationController,
     this.backgroundGradient,
-    this.blurEffect = false, this.labels, this.labelSize,
+    this.blurEffect = false,
+    this.labels,
+    this.labelSize,
+    this.activeLabelColor,
+    this.inactiveLabelColor,
   })  : assert(icons != null || itemCount != null),
         assert(
           ((itemCount ?? icons!.length) >= 2) &&
@@ -190,6 +200,8 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     Color? splashColor,
     Color? activeColor,
     Color? inactiveColor,
+    Color? activeLabelColor,
+    Color? inactiveLabelColor,
     Animation<double>? notchAndCornersAnimation,
     double? leftCornerRadius,
     double? rightCornerRadius,
@@ -221,6 +233,8 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           splashColor: splashColor,
           activeColor: activeColor,
           inactiveColor: inactiveColor,
+          activeLabelColor: activeLabelColor,
+          inactiveLabelColor: inactiveLabelColor,
           notchAndCornersAnimation: notchAndCornersAnimation,
           leftCornerRadius: leftCornerRadius ?? 0,
           rightCornerRadius: rightCornerRadius ?? 0,
@@ -451,6 +465,8 @@ class _AnimatedBottomNavigationBarState
           bubbleColor: widget.splashColor,
           activeColor: widget.activeColor,
           inactiveColor: widget.inactiveColor,
+          activeLabelColor: widget.activeLabelColor,
+          inactiveLabelColor: widget.inactiveLabelColor,
           child: widget.tabBuilder?.call(i, isActive),
           iconData: widget.icons?.elementAt(i),
           label: widget.labels?.elementAt(i),
