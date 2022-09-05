@@ -3,6 +3,7 @@ library animated_bottom_navigation_bar;
 import 'dart:ui';
 
 import 'package:animated_bottom_navigation_bar/src/around_custom_painter.dart';
+import 'package:animated_bottom_navigation_bar/icon_pair.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_bottom_navigation_bar/src/navigation_bar_item.dart';
@@ -27,7 +28,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
   final int? itemCount;
 
   /// Icon data to render in the tab bar.
-  final List<IconData>? icons;
+  final List<dynamic>? icons;
 
   /// Label data to render (optional) in the tab bar.
   final List<String>? labels;
@@ -187,7 +188,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
 
   AnimatedBottomNavigationBar({
     Key? key,
-    required List<IconData> icons,
+    required List<dynamic> icons,
     required int activeIndex,
     required Function(int) onTap,
     List<String>? labels,
@@ -442,6 +443,19 @@ class _AnimatedBottomNavigationBarState
     );
   }
 
+  IconData _buildIconData(int i, bool isActive) {
+    if (widget.icons?.elementAt(i) is IconData) {
+      return widget.icons?.elementAt(i);
+    } else if (widget.icons?.elementAt(i) is IconPair) {
+      if (isActive) {
+        return (widget.icons?.elementAt(i) as IconPair).activeIcon;
+      } else {
+        return (widget.icons?.elementAt(i) as IconPair).inactiveIcon;
+      }
+    }
+    throw(Exception('Unacceptable icon list type'));
+  }
+
   List<Widget> _buildItems() {
     final gapWidth = widget.gapWidth ?? 72;
     final gapItemWidth = widget.notchAndCornersAnimation != null
@@ -468,7 +482,7 @@ class _AnimatedBottomNavigationBarState
           activeLabelColor: widget.activeLabelColor,
           inactiveLabelColor: widget.inactiveLabelColor,
           child: widget.tabBuilder?.call(i, isActive),
-          iconData: widget.icons?.elementAt(i),
+          iconData: _buildIconData(i, isActive),
           label: widget.labels?.elementAt(i),
           iconScale: _iconScale,
           iconSize: widget.iconSize,
